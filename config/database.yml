@@ -14,22 +14,33 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-default: &default
+
+postgresql_default: &postgres_default
   adapter: postgresql
   encoding: unicode
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  host: <%= ENV.fetch('POSTGRES_HOST') %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  database: <%= ENV['POSTGRES_DB'] %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+
+redis_default: &redis_default
+  driver: hiredis
+  host: <%= ENV['REDIS_HOST'] %>
+  port: <%= ENV.fetch('REDIS_PORT') { 6379 } %>
+  pool: <%= ENV.fetch("REDIS_POOL_SIZE") { 10 } %>
+  db: 1
+
+
 development:
-  <<: *default
-  database: car_market_development
+  <<: *postgres_default
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: car_market
+  #username: inlb_wb_crm
 
   # The password associated with the postgres role (username).
   #password:
@@ -56,9 +67,8 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: car_market_test
-
+  <<: *postgres_default
+  database: <%= ENV['POSTGRES_DB'] %>_test
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.
@@ -80,7 +90,4 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: car_market_production
-  username: car_market
-  password: <%= ENV['CAR_MARKET_DATABASE_PASSWORD'] %>
+  <<: *postgres_default

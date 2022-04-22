@@ -19,6 +19,12 @@ gem 'puma', '~> 5.0'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
+gem 'connection_pool'
+gem 'hiredis'
+gem 'redis', '~> 4.6'
+gem 'sidekiq', '~> 6.4.2'
+gem 'rest-client'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

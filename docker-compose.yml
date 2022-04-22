@@ -1,0 +1,69 @@
+version: '3'
+
+x-function: &rails
+  build: .
+  tty: true
+  stdin_open: true
+  volumes:
+    - .:/code:rw
+    - bundler-cache:/bundle:delegated
+    - bundler-cache:/cache:delegated
+  environment: &rails_env_vars
+    RAILS_LOG_TO_STDOUT: 'true'
+    RAILS_ENV: development
+    BUNDLE_PATH: /bundle
+  env_file:
+    .env
+  networks:
+    - internal
+  depends_on: &base_dependencies
+    - db
+    - redis
+
+services:
+  db:
+    container_name: cars_search_api_db
+    image: postgres:12
+    networks:
+      - internal
+    volumes:
+      - db-data:/var/lib/postgresql/data/pgdata
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+
+  redis:
+    container_name: cars_search_api_redis
+    image: redis:5.0.0
+    networks:
+      - internal
+    command: "redis-server --appendonly yes"
+
+  app:
+    container_name: cars_search_api_app
+    <<: *rails
+    ports:
+      - "3001:3000"
+    command:
+      - /bin/bash
+      - -c
+      - |
+        scripts/start-server.sh
+
+  app_sidekiq:
+    <<: *rails
+    container_name: cars_search_api_sidekiq
+    command:
+      - /bin/bash
+      - -c
+      - |
+        scripts/wait-for-app.sh
+        scripts/start-sidekiq.sh
+
+volumes:
+  db-data:
+  bundler-cache:
+
+networks:
+  internal:
