@@ -10,7 +10,7 @@ CARS_DATA.each do |car_item|
   Car.create!(
     model: car_item['model'],
     brand: BRANDS[car_item['brand_name']],
-    price: car_item['price'],
+    price: car_item['price']
   )
 end
 
