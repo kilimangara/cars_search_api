@@ -22,6 +22,7 @@ gem 'puma', '~> 5.0'
 gem 'connection_pool'
 gem 'hiredis'
 gem 'redis', '~> 4.6'
+gem 'redis-namespace'
 gem 'sidekiq', '~> 6.4.2'
 gem 'rest-client'
 

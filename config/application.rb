@@ -25,6 +25,10 @@ module CarMarket
     config.load_defaults 6.1
     config.eager_load_paths += %w[lib]
 
+    config.cache_store = :redis_store,
+      Rails.configuration.database_configuration['redis_default'].symbolize_keys.merge(namespace: "cache")
+
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
