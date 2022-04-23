@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ScoringApi
+module ScoringAPI
   module Struct
     class Base < Dry::Struct
       module Types

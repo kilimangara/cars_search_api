@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ScoringApi
+module ScoringAPI
   class Response
     attr_reader :raw_response, :struct_class
 
@@ -10,7 +10,7 @@ module ScoringApi
     def initialize(response, struct_class = OpenStruct)
       @raw_response = response
       @struct_class = struct_class
-      Rails.logger.info("[ScoringApi] Response #{raw_response.body} #{raw_response.code}")
+      Rails.logger.info("[ScoringAPI] Response #{raw_response.body} #{raw_response.code}")
     end
 
     def body
@@ -18,7 +18,7 @@ module ScoringApi
 
       @body = JSON.parse(raw_response.body)
     rescue JSON::ParserError
-      Rails.logger.info("[ScoringApi] JSON::ParserError #{raw_response.code} body #{raw_response.body}")
+      Rails.logger.info("[ScoringAPI] JSON::ParserError #{raw_response.code} body #{raw_response.body}")
       @body = nil
     end
 

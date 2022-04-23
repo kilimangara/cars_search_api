@@ -7,11 +7,9 @@ class CacheUserRecommendationsJob < ActiveJob::Base
 
     failed_ids = []
     users.each do |user|
-      result = client.recommended_cars(user.id)
-
       # Write cache no matter if it exists
-      CacheUserRecommendationsService.new(user).write!(result)
-    rescue ScoringApi::Exceptions::Base
+      CacheUserRecommendationsService.new(user).call
+    rescue ScoringAPI::Exceptions::Base
       failed_ids.push(user.id)
     end
 
@@ -26,9 +24,5 @@ class CacheUserRecommendationsJob < ActiveJob::Base
     self.arguments = [ids]
     wait = determine_delay(seconds_or_duration_or_algorithm: :exponentially_longer, executions: executions)
     retry_job(wait: wait)
-  end
-
-  def client
-    @client ||= ScoringApi::Client.new
   end
 end

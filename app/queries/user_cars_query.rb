@@ -13,7 +13,7 @@ class UserCarsQuery
     apply_max_price_filter
     apply_car_brand_filter
 
-    query.select(sanitized_sql_select)
+    query
   end
 
   def apply_min_price_filter
@@ -40,10 +40,11 @@ class UserCarsQuery
     sql = <<~SQL
       cars.*,
       CASE
-        WHEN brands.name in (:brands) AND cars.price in (:prices) THEN 2
+        WHEN brands.name in (:brands) AND cars.price > :min_price AND cars.price < :max_price THEN 2
         WHEN brands.name in (:brands) THEN 1
         ELSE 0
-      END as label_score
+      END as label_score,
+      user_cars_scorings.scoring as rank_score
     SQL
 
     ActiveRecord::Base.sanitize_sql_array(
@@ -51,7 +52,8 @@ class UserCarsQuery
         sql,
         {
           brands: preferred_brand_names,
-          prices: [user.preferred_price_range.first, user.preferred_price_range.last]
+          max_price: user.preferred_price_range.last,
+          min_price: user.preferred_price_range.first
         }
       ]
     )
@@ -62,6 +64,11 @@ class UserCarsQuery
   end
 
   def query
-    @query ||= Car.joins(:brand).paginate(page: params[:page], per_page: params[:per_page])
+    @query ||=
+      Car.select(sanitized_sql_select)
+         .joins(:brand)
+         .joins("LEFT JOIN user_cars_scorings on cars.id = user_cars_scorings.car_id AND user_cars_scorings.user_id = #{user.id}")
+         .paginate(page: params[:page], per_page: params[:per_page])
+         .order('label_score DESC', 'rank_score DESC NULLS LAST', 'price ASC')
   end
 end

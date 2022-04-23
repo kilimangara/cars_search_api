@@ -30,6 +30,10 @@ gem 'will_paginate', '~> 3.3'
 gem 'dry-struct'
 gem 'dry-types'
 
+gem 'grape'
+gem 'grape-entity'
+gem 'grape-swagger'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

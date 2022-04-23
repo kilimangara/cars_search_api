@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-module ScoringApi
+module ScoringAPI
   class Client
     BASE_URL = 'https://bravado-images-production.s3.amazonaws.com'
     include Methods::Recommendations
 
     def get(path, params = {})
       result_url = prepare_url path, params
-      Rails.logger.info("[ScoringApi]: sending get request: To: #{path}")
+      Rails.logger.info("[ScoringAPI]: sending get request: To: #{path}")
       request_options = build_request_options(
         method: :get,
         url: result_url
@@ -41,11 +41,11 @@ module ScoringApi
     def exception_class(exc)
       case exc
       when Errno::ECONNREFUSED
-        ScoringApi::Exceptions::ConnectionFailed
+        ScoringAPI::Exceptions::ConnectionFailed
       when RestClient::Exceptions::Timeout
-        ScoringApi::Exceptions::Timeout
+        ScoringAPI::Exceptions::Timeout
       else
-        ScoringApi::Exceptions::Base
+        ScoringAPI::Exceptions::Base
       end
     end
   end

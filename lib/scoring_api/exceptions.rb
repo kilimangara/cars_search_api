@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ScoringApi
+module ScoringAPI
   class Exceptions
     class Base < RuntimeError
       attr_writer :message
