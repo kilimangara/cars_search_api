@@ -25,6 +25,10 @@ gem 'redis', '~> 4.6'
 gem 'redis-namespace'
 gem 'sidekiq', '~> 6.4.2'
 gem 'rest-client'
+gem 'will_paginate', '~> 3.3'
+
+gem 'dry-struct'
+gem 'dry-types'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false

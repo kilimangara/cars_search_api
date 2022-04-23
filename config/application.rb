@@ -23,9 +23,9 @@ module CarMarket
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
-    config.eager_load_paths += %w[lib]
+    config.eager_load_paths += %w[lib queries]
 
-    config.cache_store = :redis_store,
+    config.cache_store = :redis_cache_store,
       Rails.configuration.database_configuration['redis_default'].symbolize_keys.merge(namespace: "cache")
 
 

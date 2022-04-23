@@ -2,28 +2,35 @@
 
 module ScoringApi
   class Response
-    attr_reader :raw_response
+    attr_reader :raw_response, :struct_class
 
     delegate :code,
              to: :raw_response
 
-    def initialize(response)
+    def initialize(response, struct_class = OpenStruct)
       @raw_response = response
+      @struct_class = struct_class
       Rails.logger.info("[ScoringApi] Response #{raw_response.body} #{raw_response.code}")
     end
 
     def body
       return @body if instance_variable_defined?(:@body)
 
-      hsh = JSON.parse(raw_response.body)
-      @body = hsh.deep_symbolize_keys
+      @body = JSON.parse(raw_response.body)
     rescue JSON::ParserError
       Rails.logger.info("[ScoringApi] JSON::ParserError #{raw_response.code} body #{raw_response.body}")
       @body = nil
     end
 
-    def success?
-      code < 300
+    def struct
+      raise RuntimeError('Cant parse JSON Response') if body.blank?
+
+      @struct ||=
+        if body.is_a?(Array)
+          body.map { |el| struct_class.new(el) }
+        else
+          struct_class.new(body)
+        end
     end
   end
 end

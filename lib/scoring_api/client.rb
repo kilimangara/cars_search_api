@@ -2,7 +2,6 @@
 
 module ScoringApi
   class Client
-
     BASE_URL = 'https://bravado-images-production.s3.amazonaws.com'
     include Methods::Recommendations
 
@@ -13,10 +12,9 @@ module ScoringApi
         method: :get,
         url: result_url
       )
-      res = RestClient::Request.execute(request_options)
-      Response.new(res)
+      RestClient::Request.execute(request_options)
     rescue Errno::ECONNREFUSED, RestClient::Exception => e
-      wrap_exception(e)
+      raise wrap_exception(e)
     end
 
     private
