@@ -14,6 +14,14 @@ class CacheUserRecommendationsService
     persist(list[0..4])
   end
 
+  def cache_in_runtime
+    return if actual?
+
+    call
+  rescue ScoringApi::Exceptions::Base => _e
+    # notify bug system
+  end
+
   def actual?
     Rails.cache.read("user_cars_scoring:#{user.id}:actual").present?
   end
@@ -33,6 +41,7 @@ class CacheUserRecommendationsService
           car_id: item.car_id
         )
       end
+      write_identity!
     end
   end
 

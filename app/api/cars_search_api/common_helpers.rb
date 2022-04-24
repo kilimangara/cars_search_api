@@ -11,8 +11,8 @@ module CarsSearchAPI
     TOTAL_HEADER = 'X-Total-Pages'
 
     params :pagination do
-      optional :page, type: Integer, default: 1
-      optional :per_page, type: Integer, default: DEFAULT_PER_PAGE
+      optional :page, type: Integer, default: 1, desc: 'Номер страницы'
+      optional :per_page, type: Integer, default: DEFAULT_PER_PAGE, desc: 'Количество элементов на странице'
     end
 
     def permitted_params
@@ -26,11 +26,15 @@ module CarsSearchAPI
       }
     end
 
+    def write_pagination_info(paginated_query)
+      header TOTAL_HEADER, String(paginated_query.total_pages)
+      header 'Access-Control-Expose-Headers', "#{TOTAL_HEADER}"
+    end
+
     def get_paginated_response(query)
       params = pagination_params.merge(total_entries: query.count)
       paginated_query = query.paginate(params)
-      header TOTAL_HEADER, String(paginated_query.total_pages)
-      header 'Access-Control-Expose-Headers', "#{TOTAL_HEADER}"
+      write_pagination_info(paginated_query)
       paginated_query
     end
   end

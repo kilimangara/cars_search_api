@@ -6,10 +6,10 @@ module CarsSearchAPI
       class Car < ::Grape::Entity
         expose :id
         expose :brand, with: Brand
-        expose :model
-        expose :price
-        expose :rank_score
-        expose :label
+        expose :model, documentation: { type: 'string', desc: 'Название модели', required: true }
+        expose :price, documentation: { type: 'integer', desc: 'Цена', required: true }
+        expose :rank_score, documentation: { type: 'float', desc: 'Скоринг рекомендации', required: false }
+        expose :label, documentation: { type: 'string', desc: 'Оценка', values: ['perfect_match', 'good_match', nil] }
 
         def label
           case object.label_score

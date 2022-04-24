@@ -17,5 +17,27 @@ end
 User.create!(
   email: 'example@mail.com',
   preferred_price_range: 35_000...40_000,
-  preferred_brands: [BRANDS['Alfa Romeo'], BRANDS['Volkswagen']],
+  preferred_brands: [BRANDS['Alfa Romeo'], BRANDS['Volkswagen']]
+)
+
+User.create!(
+  email: 'example1@mail.com',
+  preferred_price_range: 15_000...45_000,
+  preferred_brands: [BRANDS['Hyundai'], BRANDS['Nissan'], BRANDS['Saab']]
+)
+User.create!(
+  email: 'example2@mail.com',
+  preferred_price_range: 5_000...15_000,
+  preferred_brands: [BRANDS['Saab'], BRANDS['Ram']]
+)
+User.create!(
+  email: 'example3@mail.com',
+  preferred_price_range: 55_000...90_000,
+  preferred_brands: [BRANDS['Rolls-Royce']]
+)
+
+User.create!(
+  email: 'example4@mail.com',
+  preferred_price_range: 25_000...30_000,
+  preferred_brands: [BRANDS['Audi'], BRANDS['Volkswagen'], BRANDS['BMW']]
 )

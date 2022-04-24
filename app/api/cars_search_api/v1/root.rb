@@ -11,9 +11,10 @@ module CarsSearchAPI
       include Search
       add_swagger_documentation hide_documentation_path: true,
                                 api_version: 'v1',
+                                doc_version: '0.0.1',
                                 info: {
-                                  title: 'Horses and Hussars',
-                                  description: 'Demo app for dev of grape swagger 2.0'
+                                  title: 'Cars Search API',
+                                  description: 'Cars recommendation search API'
                                 }
     end
   end

@@ -33,6 +33,9 @@ gem 'dry-types'
 gem 'grape'
 gem 'grape-entity'
 gem 'grape-swagger'
+gem 'grape-swagger-entity', '~> 0.3'
+
+gem 'rack-cors'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
