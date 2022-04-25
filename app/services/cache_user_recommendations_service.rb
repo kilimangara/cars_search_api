@@ -18,7 +18,7 @@ class CacheUserRecommendationsService
     return if actual?
 
     call
-  rescue ScoringApi::Exceptions::Base => _e
+  rescue ScoringAPI::Exceptions::Base => _e
     # notify bug system
   end
 

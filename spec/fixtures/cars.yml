@@ -1,0 +1,47 @@
+NSX:
+  brand_id: 1
+  model: NSX
+  price: 16841
+  id: 1
+
+732:
+  brand_id: 4
+  model: 732
+  price: 55733
+  id: 2
+
+RSX:
+  brand_id: 1
+  model: RSX
+  price: 57424
+  id: 3
+
+ILX:
+  brand_id: 1
+  model: ILX
+  price: 62211
+  id: 4
+
+2000:
+  brand_id: 4
+  model: '2000'
+  price: 23558
+  id: 5
+
+XSeries:
+  brand_id: 4
+  model: 'X series'
+  price: 87000
+  id: 6
+
+M:
+  brand_id: 4
+  model: M
+  price: 105733
+  id: 7
+
+Z4:
+  brand_id: 4
+  model: Z4
+  price: 75733
+  id: 8

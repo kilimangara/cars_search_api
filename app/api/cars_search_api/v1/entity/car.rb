@@ -13,9 +13,9 @@ module CarsSearchAPI
 
         def label
           case object.label_score
-          when 1
+          when UserCarsQuery::GOOD_MATCH
             'good_match'
-          when 2
+          when UserCarsQuery::PERFECT_MATCH
             'perfect_match'
           end
         end

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class UserCarsQuery
+  PERFECT_MATCH = 2
+  GOOD_MATCH = 1
+  NULL_MATCH = 0
   attr_reader :user, :params
 
   def initialize(user, params)
@@ -40,9 +43,9 @@ class UserCarsQuery
     sql = <<~SQL
       cars.*,
       CASE
-        WHEN brands.id in (:brands) AND cars.price > :min_price AND cars.price < :max_price THEN 2
-        WHEN brands.id in (:brands) THEN 1
-        ELSE 0
+        WHEN brands.id in (:brands) AND cars.price > :min_price AND cars.price < :max_price THEN #{PERFECT_MATCH}
+        WHEN brands.id in (:brands) THEN #{GOOD_MATCH}
+        ELSE #{NULL_MATCH}
       END as label_score,
       user_cars_scorings.scoring as rank_score
     SQL

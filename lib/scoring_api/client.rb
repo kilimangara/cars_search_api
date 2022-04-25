@@ -13,7 +13,7 @@ module ScoringAPI
         url: result_url
       )
       RestClient::Request.execute(request_options)
-    rescue Errno::ECONNREFUSED, RestClient::Exception => e
+    rescue Errno::ECONNREFUSED, SocketError, RestClient::Exception => e
       raise wrap_exception(e)
     end
 
@@ -40,7 +40,7 @@ module ScoringAPI
 
     def exception_class(exc)
       case exc
-      when Errno::ECONNREFUSED
+      when Errno::ECONNREFUSED, SocketError
         ScoringAPI::Exceptions::ConnectionFailed
       when RestClient::Exceptions::Timeout
         ScoringAPI::Exceptions::Timeout
