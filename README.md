@@ -17,4 +17,8 @@ There are few flows to fill cache:
 2. Sidekiq Job which fetches scorings for batch of users. Job has 5 retries with exponential delay. Jobs start each N hours by cron for example.
 
 # Tests
-TBD
+Tests on:
+- [x] API
+- [x] - UserCarsQuery
+- [x] - ScoringAPI::Client
+- [x] - CacheUserRecommendationsService
